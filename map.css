@@ -1,0 +1,54 @@
+#map {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 320px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+}
+
+#map>svg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#map circle {
+    fill: var(--flow-color);
+    fill-opacity: 0.6;
+    stroke: white;
+    stroke-width: 1;
+    pointer-events: auto;
+}
+
+#map circle,
+.legend>div {
+    --flow-color: color-mix(in oklch,
+            steelblue calc(100% * var(--departure-ratio, 0.5)),
+            darkorange);
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em 1.5em;
+    margin-block: 0.8em;
+}
+
+.legend>div {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+}
+
+.legend>div::before {
+    content: '';
+    width: 0.9em;
+    height: 0.9em;
+    border-radius: 50%;
+    background: var(--flow-color);
+}

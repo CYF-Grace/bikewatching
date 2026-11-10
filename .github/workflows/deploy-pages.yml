@@ -1,0 +1,44 @@
+name: Deploy Bikewatching to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+
+      - name: Prepare site files
+        env:
+          MAPBOX_PUBLIC_TOKEN: ${{ secrets.MAPBOX_PUBLIC_TOKEN }}
+        run: |
+          if [[ ! "$MAPBOX_PUBLIC_TOKEN" =~ ^pk\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$ ]]; then
+            echo "Set MAPBOX_PUBLIC_TOKEN to the public token from your Mapbox dashboard."
+            exit 1
+          fi
+
+          mkdir -p _site
+          cp index.html global.css map.css map.js _site/
+          cp -r assets _site/
+          printf 'export default "%s";\n' "$MAPBOX_PUBLIC_TOKEN" > _site/mapbox-token.js
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

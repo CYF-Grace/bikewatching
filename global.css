@@ -1,0 +1,35 @@
+body {
+    font: 100% / 1.5 system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    max-width: 80em;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: auto;
+    padding: 1em;
+}
+
+.page-header {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5em 1em;
+}
+
+.time-control {
+    margin-left: auto;
+}
+
+.time-control input {
+    display: block;
+    width: 14em;
+    max-width: 100%;
+}
+
+.time-readout {
+    min-height: 1.5em;
+}
+
+#any-time {
+    opacity: 0.7;
+}
